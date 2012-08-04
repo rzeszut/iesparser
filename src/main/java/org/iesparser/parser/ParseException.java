@@ -10,10 +10,10 @@ package org.iesparser.parser;
  */
 public class ParseException extends Exception {
 
-	private static final long serialVersionUID = -644519857973827281L;
+    private static final long serialVersionUID = -644519857973827281L;
 
-	public ParseException(String message) {
+    public ParseException(String message) {
         super(message);
     }
-    
+
 }

@@ -30,6 +30,6 @@ public class PhotometricDataBuilder {
     public PhotometricData build() {
         return data;
     }
-    
+
     // dodać te wszystkie metody 'withCośtam'
 }
