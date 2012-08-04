@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package parser;
+package org.iesparser.parser;
 
 /**
  * Wyjątek parsowania. Nie wiem co tutaj wsadzić.

@@ -2,11 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package parser.xml;
+package org.iesparser.parser.xml;
 
 import java.io.IOException;
-import parser.Parser;
-import parser.ParserFactory;
+
+import org.iesparser.parser.Parser;
+import org.iesparser.parser.ParserFactory;
 
 /**
  * Fabryka tworząca parser XMLa. Tworzenie parsera jest dość proste, jak widać.
