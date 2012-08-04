@@ -1,0 +1,14 @@
+# eclipse project
+.classpath
+.project
+.settings
+
+# classes and bin files
+target
+
+# netbeans project files
+build
+build.xml
+dist
+manifest.mf
+nbproject
