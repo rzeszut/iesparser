@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package data;
+package org.iesparser.data;
 
 /**
  * Klasa buildera, ułatwiająca tworzenie obiektu. To chyba nie jest taki

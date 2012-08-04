@@ -1,22 +1,22 @@
 /**
  * 
  */
-package converter;
+package org.iesparser.output;
 
 import java.io.File;
 import java.io.IOException;
 
-import data.PhotometricData;
+import org.iesparser.data.PhotometricData;
+
 
 /**
  * 
  * @author mateusz
  * 
  */
-public interface Converter {
+public interface Output {
 	/**
-	 * Metoda bierze dane, i zapisuje je do pliku, w okreslonym formacie. Nazwa
-	 * 'converter' jest chyba troche na wyrost.
+	 * Metoda bierze dane, i zapisuje je do pliku, w okreslonym formacie.
 	 * 
 	 * @param data
 	 *            dane fotometryczne

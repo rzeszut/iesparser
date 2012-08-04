@@ -2,11 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package parser.ies;
+package org.iesparser.parser.ies;
 
-import data.PhotometricData;
-import parser.ParseException;
-import parser.Parser;
+import org.iesparser.data.PhotometricData;
+import org.iesparser.parser.ParseException;
+import org.iesparser.parser.Parser;
+
 
 /**
  *

@@ -2,11 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package parser.ies;
+package org.iesparser.parser.ies;
 
 import java.io.IOException;
-import parser.Parser;
-import parser.ParserFactory;
+
+import org.iesparser.parser.Parser;
+import org.iesparser.parser.ParserFactory;
 
 /**
  * Fabryka parserów plików IES.

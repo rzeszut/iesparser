@@ -1,18 +1,19 @@
 /**
  * 
  */
-package converter;
+package org.iesparser.output;
 
 import java.io.File;
 import java.io.IOException;
 
-import data.PhotometricData;
+import org.iesparser.data.PhotometricData;
+
 
 /**
  * @author mateusz
  *
  */
-public class XMLConverter implements Converter {
+public class XMLOutput implements Output {
 
 	/* (non-Javadoc)
 	 * @see converter.Converter#saveToFile(data.PhotometricData, java.io.File)
