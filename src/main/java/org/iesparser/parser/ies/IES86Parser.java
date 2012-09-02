@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.iesparser.parser.ies;
 
+import java.util.Scanner;
+
 import org.iesparser.data.PhotometricData;
-import org.iesparser.parser.ParseException;
 import org.iesparser.parser.Parser;
 
 
@@ -14,19 +11,24 @@ import org.iesparser.parser.Parser;
  *
  * @author mateusz
  */
-public class IES86Parser implements Parser {
+public class IES86Parser extends IESParser implements Parser {
 
     /**
      * Chroniony konstruktor, tworzenie obiektu tylko za pomocą
      * IESParserFactory.
      *
-     * @param filename nazwa pliku w standardzie IES LM-63-1986.
+     * @param in Stream z plikiem IES.
      */
-    protected IES86Parser(String filename) {
-        // TODO
+    protected IES86Parser(Scanner in) {
+        super(in);
     }
 
-    public PhotometricData parse() throws ParseException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Override
+    protected void parseKeywords(PhotometricData data) {
+        // TODO zrobic przetwarzanie labeli
+        Scanner in = getInput();
+        while (!in.hasNext("TILT=.*")) {
+            in.next();
+        }
     }
 }

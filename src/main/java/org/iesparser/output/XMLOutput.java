@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.iesparser.output;
 
 import java.io.File;

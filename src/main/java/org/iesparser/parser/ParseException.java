@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.iesparser.parser;
 
 /**
@@ -16,4 +12,7 @@ public class ParseException extends Exception {
         super(message);
     }
 
+    public ParseException(String message, Exception e) {
+        super(message, e);
+    }
 }

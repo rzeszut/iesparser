@@ -1,12 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.iesparser.parser.ies;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
-import org.iesparser.parser.Parser;
 import org.iesparser.parser.ParserFactory;
 
 /**
@@ -24,7 +21,16 @@ public class IESParserFactory implements ParserFactory {
      * @param filename nazwa pliku IES
      * @return parser
      */
-    public Parser newParser(String filename)  throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public IESParser newParser(String filename) throws IOException {
+        Scanner input = new Scanner(new File(filename));
+        input.useDelimiter("\r\n");
+
+        if (input.hasNext("IESNA91")) {
+            return new IES91Parser(input);
+        } else if (input.hasNext("IESNA:LM-63-1995")) {
+            return new IES95Parser(input);
+        } else {
+            return new IES86Parser(input);
+        }
     }
 }

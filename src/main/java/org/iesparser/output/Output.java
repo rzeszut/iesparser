@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.iesparser.output;
 
 import java.io.File;
@@ -16,7 +13,7 @@ import org.iesparser.data.PhotometricData;
  */
 public interface Output {
     /**
-     * Metoda bierze dane, i zapisuje je do pliku, w okreslonym formacie.
+     * Metoda dostaje dane i zapisuje je do pliku, w okreslonym formacie.
      *
      * @param data
      *            dane fotometryczne
