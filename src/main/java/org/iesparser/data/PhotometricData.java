@@ -14,33 +14,38 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  *
  * @author mateusz
  */
-public class PhotometricData implements Cloneable, Serializable {
+public class PhotometricData implements Serializable {
     private static final long serialVersionUID = 2352305742920985366L;
 
+    private TiltData tiltData;
+
     // line 10 data
-    int numberOfLamps;
-    float lumensPerLamp;
-    float candelaMultiplier;
-    PhotometricType type;
-    UnitsType unitsType;
-    float width;
-    float length;
-    float height;
+    private int numberOfLamps;
+    private float lumensPerLamp;
+    private float candelaMultiplier;
+    private PhotometricType type;
+    private UnitsType unitsType;
+    private float width;
+    private float length;
+    private float height;
 
     // line 11 data
-    float ballastData;
-    float ballastLampPhotometricFactor;
-    float inputWatts;
+    private float ballastData;
+    private float ballastLampPhotometricFactor;
+    private float inputWatts;
 
-    float[] verticalAngles;
-    float[] horizontalAngles;
+    private float[] verticalAngles;
+    private float[] horizontalAngles;
 
-    float[][] candela;
+    private float[][] candela;
 
-    /**
-     * Domyślny konstruktor.
-     */
-    public PhotometricData() {
+
+    public TiltData getTiltData() {
+        return tiltData;
+    }
+
+    public void setTiltData(TiltData tiltData) {
+        this.tiltData = tiltData;
     }
 
     public int getNumberOfLamps() {
@@ -153,15 +158,6 @@ public class PhotometricData implements Cloneable, Serializable {
 
     public void setCandela(float[][] candela) {
         this.candela = candela;
-    }
-
-    @Override
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            return null;
-        }
     }
 
     @Override

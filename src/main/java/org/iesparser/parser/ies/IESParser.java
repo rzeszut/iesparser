@@ -1,10 +1,13 @@
 package org.iesparser.parser.ies;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import org.iesparser.data.PhotometricData;
 import org.iesparser.data.PhotometricType;
+import org.iesparser.data.TiltData;
 import org.iesparser.data.UnitsType;
 import org.iesparser.parser.ParseException;
 import org.iesparser.parser.Parser;
@@ -50,7 +53,9 @@ public abstract class IESParser implements Parser {
         } catch (NumberFormatException e) {
             throw new ParseException("Wrong number format.", e);
         } finally {
-            in.close();
+            if (in != null) {
+                in.close();
+            }
         }
 
         return data;
@@ -105,17 +110,35 @@ public abstract class IESParser implements Parser {
             if (tilt.equals("NONE")) {
                 return;
             } else if (tilt.equals("INCLUDE")) {
-                // TODO sparsowac TILT
-                in.next();
-                in.next();
-                in.next();
-                in.next();
+                data.setTiltData(parseTiltData(in));
             } else {
-                // TODO wczytac dane TILT z pliku
+                Scanner input = null;
+                try {
+                    input = new Scanner(new File(tilt));
+                    data.setTiltData(parseTiltData(input));
+                } catch (FileNotFoundException e) {
+                    new ParseException("Invalid TILT file specified.", e);
+                } finally {
+                    if (input != null) {
+                        input.close();
+                    }
+                }
             }
         } else {
             throw new ParseException("TILT directive not found. IES file is invalid.");
         }
+    }
+
+    protected TiltData parseTiltData(Scanner input) {
+        TiltData data = new TiltData();
+
+        data.setLampToLuminaire(Integer.valueOf(input.next().trim()));
+        int pairs = Integer.valueOf(input.next().trim());
+
+        data.setAngles(parseFloatList(pairs));
+        data.setMultiplyingFactors(parseFloatList(pairs));
+
+        return data;
     }
 
     protected abstract void parseKeywords(PhotometricData data) throws ParseException;

@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import org.iesparser.data.PhotometricData;
 import org.iesparser.data.PhotometricType;
+import org.iesparser.data.TiltData;
 import org.iesparser.data.UnitsType;
 import org.iesparser.parser.ParseException;
 import org.junit.Before;
@@ -46,6 +47,26 @@ public class IESParserTest {
         } else {
             fail();
         }
+    }
+
+    @Test
+    public void testParseTiltData() {
+        // given
+        StringBuilder buf = new StringBuilder();
+        buf.append("1\r\n");
+        buf.append("5\r\n");
+        buf.append("0 90 180 270 360\r\n");
+        buf.append("1 .95 .9 .95 1\r\n");
+        Scanner input = new Scanner(buf.toString());
+        IES86Parser parser = new IES86Parser(input);
+
+        // when
+        TiltData data = parser.parseTiltData(input);
+
+        // then
+        assertThat(data.getLampToLuminaire()).isEqualTo(1);
+        assertThat(data.getAngles()).isEqualTo(new float[] {0, 90, 180, 270, 360});
+        assertThat(data.getMultiplyingFactors()).isEqualTo(new float[] {1, .95f, .9f, .95f, 1});
     }
 
     @Test
@@ -88,7 +109,7 @@ public class IESParserTest {
     }
 
     @Test
-    public void parserFloatList() {
+    public void testParseFloatList() {
         // given
         Scanner input = new Scanner("0 .5 1 1.5 2 2.5\r\n");
         IES86Parser parser = new IES86Parser(input); // na potrzeby tego testu równie dobrze może być 91 czy 95
@@ -101,6 +122,26 @@ public class IESParserTest {
         for (int i = 0; i < 6; ++i) {
             assertThat(ret[i]).isEqualTo(0.5f * i);
         }
+    }
+
+    @Test
+    public void testParseCandelaValues() {
+        // given
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("0 0 0 3 3 1 1 0 0 0\r\n");
+        buffer.append("1 2 3\r\n");
+        buffer.append("4 5 6\r\n");
+        buffer.append("7 8 9\r\n");
+        Scanner input = new Scanner(buffer.toString());
+        IES86Parser parser = new IES86Parser(input);
+        PhotometricData data = new PhotometricData();
+        parser.parseLine10(data);
+
+        // when
+        parser.parseCandelaValues(data);
+
+        // then
+        assertThat(data.getCandela()).isEqualTo(new float[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
     }
 
 }

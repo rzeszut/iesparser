@@ -11,7 +11,7 @@ import org.iesparser.data.PhotometricData;
  * @author mateusz
  *
  */
-public interface Output {
+public abstract class Output {
     /**
      * Metoda dostaje dane i zapisuje je do pliku, w okreslonym formacie.
      *
@@ -21,7 +21,7 @@ public interface Output {
      *            plik
      * @throws IOException
      */
-    void saveToFile(PhotometricData data, File file) throws IOException;
+    public abstract void saveToFile(PhotometricData data, File file) throws IOException;
 
     /**
      * Analogiczna metoda do tej powyzej.
@@ -32,5 +32,7 @@ public interface Output {
      *            nazwa pliku
      * @throws IOException
      */
-    void saveToFile(PhotometricData data, String filename) throws IOException;
+    public void saveToFile(PhotometricData data, String filename) throws IOException {
+        saveToFile(data, new File(filename));
+    }
 }
