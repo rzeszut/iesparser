@@ -76,6 +76,7 @@ public abstract class IESParser implements Parser {
         for (int i = 0; i < size; ++i) {
             numbers[i] = Float.valueOf(lineParams.next());
         }
+        lineParams.close();
         return numbers;
     }
 
@@ -85,6 +86,7 @@ public abstract class IESParser implements Parser {
         data.setBallastData(Float.valueOf(lineParams.next()));
         data.setBallastLampPhotometricFactor(Float.valueOf(lineParams.next()));
         data.setInputWatts(Float.valueOf(lineParams.next()));
+        lineParams.close();
     }
 
     protected void parseLine10(PhotometricData data) {
@@ -100,6 +102,7 @@ public abstract class IESParser implements Parser {
         data.setWidth(Float.valueOf(lineParams.next()));
         data.setLength(Float.valueOf(lineParams.next()));
         data.setHeight(Float.valueOf(lineParams.next()));
+        lineParams.close();
     }
 
     protected void parseTilt(PhotometricData data) throws ParseException {
@@ -112,24 +115,28 @@ public abstract class IESParser implements Parser {
             } else if (tilt.equals("INCLUDE")) {
                 data.setTiltData(parseTiltData(in));
             } else {
-                Scanner input = null;
-                try {
-                    input = new Scanner(new File(tilt));
-                    data.setTiltData(parseTiltData(input));
-                } catch (FileNotFoundException e) {
-                    new ParseException("Invalid TILT file specified.", e);
-                } finally {
-                    if (input != null) {
-                        input.close();
-                    }
-                }
+                parseTiltFile(data, tilt);
             }
         } else {
             throw new ParseException("TILT directive not found. IES file is invalid.");
         }
     }
 
-    protected TiltData parseTiltData(Scanner input) {
+    private void parseTiltFile(PhotometricData data, String tilt) throws ParseException {
+        Scanner input = null;
+        try {
+            input = new Scanner(new File(tilt));
+            data.setTiltData(parseTiltData(input));
+        } catch (FileNotFoundException e) {
+            throw new ParseException("Invalid TILT file specified.", e);
+        } finally {
+            if (input != null) {
+                input.close();
+            }
+        }
+    }
+
+    private TiltData parseTiltData(Scanner input) {
         TiltData data = new TiltData();
 
         data.setLampToLuminaire(Integer.valueOf(input.next().trim()));

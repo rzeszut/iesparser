@@ -8,15 +8,19 @@ public enum UnitsType {
     FEET(1), METERS(2);
 
     private static Map<Integer, UnitsType> enumMap;
-    static {
-        enumMap = Maps.newHashMap();
-        enumMap.put(1, FEET);
-        enumMap.put(2, METERS);
+
+    private static Map<Integer, UnitsType> getMap() {
+        if (enumMap == null) {
+            enumMap = Maps.newHashMap();
+        }
+        return enumMap;
     }
 
     private int type;
+
     private UnitsType(int type) {
         this.type = type;
+        getMap().put(type, this);
     }
 
     public int getType() {
@@ -28,7 +32,7 @@ public enum UnitsType {
         if (t != null) {
             return t;
         } else {
-            throw new RuntimeException("Invalid int type for UnitsType");
+            throw new IllegalArgumentException();
         }
     }
 
