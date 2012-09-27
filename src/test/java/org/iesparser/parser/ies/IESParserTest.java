@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import org.iesparser.data.PhotometricData;
 import org.iesparser.data.PhotometricType;
+import org.iesparser.data.TiltData;
 import org.iesparser.data.UnitsType;
 import org.iesparser.parser.ParseException;
 import org.junit.Before;
@@ -25,7 +26,7 @@ public class IESParserTest {
     }
 
     @Test
-    public void testParseTiltFails() {
+    public void testParseTilt_fails() {
         // given
         Scanner input = new Scanner("asdfasdfASDf\r\n");
         IES86Parser parser = new IES86Parser(input);
@@ -48,25 +49,25 @@ public class IESParserTest {
         }
     }
 
-//    @Test
-//    public void testParseTiltData() {
-//        // given
-//        StringBuilder buf = new StringBuilder();
-//        buf.append("1\r\n");
-//        buf.append("5\r\n");
-//        buf.append("0 90 180 270 360\r\n");
-//        buf.append("1 .95 .9 .95 1\r\n");
-//        Scanner input = new Scanner(buf.toString());
-//        IES86Parser parser = new IES86Parser(input);
-//
-//        // when
-//        TiltData data = parser.parseTiltData(input);
-//
-//        // then
-//        assertThat(data.getLampToLuminaire()).isEqualTo(1);
-//        assertThat(data.getAngles()).isEqualTo(new float[] {0, 90, 180, 270, 360});
-//        assertThat(data.getMultiplyingFactors()).isEqualTo(new float[] {1, .95f, .9f, .95f, 1});
-//    }
+    @Test
+    public void testParseTiltData() {
+        // given
+        StringBuilder buf = new StringBuilder();
+        buf.append("1\r\n");
+        buf.append("5\r\n");
+        buf.append("0 90 180 270 360\r\n");
+        buf.append("1 .95 .9 .95 1\r\n");
+        Scanner input = new Scanner(buf.toString());
+        IES86Parser parser = new IES86Parser(input);
+
+        // when
+        TiltData data = parser.parseTiltData(input);
+
+        // then
+        assertThat(data.getLampToLuminaire()).isEqualTo(1);
+        assertThat(data.getAngles()).isEqualTo(new float[] {0, 90, 180, 270, 360});
+        assertThat(data.getMultiplyingFactors()).isEqualTo(new float[] {1, .95f, .9f, .95f, 1});
+    }
 
     @Test
     public void testParseLine10() {

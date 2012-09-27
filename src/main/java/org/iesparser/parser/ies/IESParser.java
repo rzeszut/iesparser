@@ -61,6 +61,7 @@ public abstract class IESParser implements Parser {
         return data;
     }
 
+    // TODO: zamienić protected na package
     protected void parseCandelaValues(PhotometricData data) {
         float[][] candela = new float[hor][];
         for (int i = 0; i < hor; ++i) {
@@ -115,28 +116,24 @@ public abstract class IESParser implements Parser {
             } else if (tilt.equals("INCLUDE")) {
                 data.setTiltData(parseTiltData(in));
             } else {
-                parseTiltFile(data, tilt);
+                data.setTiltData(parseTiltFile(tilt));
             }
         } else {
             throw new ParseException("TILT directive not found. IES file is invalid.");
         }
     }
 
-    private void parseTiltFile(PhotometricData data, String tilt) throws ParseException {
-        Scanner input = null;
-        try {
-            input = new Scanner(new File(tilt));
-            data.setTiltData(parseTiltData(input));
+    private TiltData parseTiltFile(String tilt) throws ParseException {
+        // behold, new Java 7 feature: auto-closing resources
+        // present in Lisp since ancient times
+        try (Scanner input = new Scanner(new File(tilt))) {
+            return parseTiltData(input);
         } catch (FileNotFoundException e) {
             throw new ParseException("Invalid TILT file specified.", e);
-        } finally {
-            if (input != null) {
-                input.close();
-            }
         }
     }
 
-    private TiltData parseTiltData(Scanner input) {
+    protected TiltData parseTiltData(Scanner input) {
         TiltData data = new TiltData();
 
         data.setLampToLuminaire(Integer.valueOf(input.next().trim()));

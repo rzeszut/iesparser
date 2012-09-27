@@ -2,6 +2,8 @@ package org.iesparser.data;
 
 import java.io.Serializable;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -18,6 +20,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class PhotometricData implements Serializable {
     private static final long serialVersionUID = 2352305742920985366L;
 
+    @Nullable
     private TiltData tiltData;
 
     // line 10 data
