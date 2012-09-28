@@ -2,7 +2,7 @@ package org.iesparser.parser.ies;
 
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.Scanner;
 
@@ -20,33 +20,58 @@ public class IESParserTest {
     public void setUp() throws Exception {
     }
 
-    @Test
-    public void testParseTilt() {
-        // TODO
-    }
-
-    @Test
-    public void testParseTilt_fails() {
+    @Test(expected=ParseException.class)
+    public void testParseTilt_fileDoesNotExist() throws ParseException {
         // given
-        Scanner input = new Scanner("asdfasdfASDf\r\n");
+        Scanner input = new Scanner("TILT=somefilethatdoesntexist.txt");
         IES86Parser parser = new IES86Parser(input);
         PhotometricData data = new PhotometricData();
-        ParseException exception = null;
 
         // when
         try {
             parser.parseTilt(data);
-        } catch (ParseException e) {
-            exception = e;
+        } finally {
+            input.close();
         }
-        input.close();
 
         // then
-        if (exception != null) {
-            assertThat(exception.getMessage()).isEqualTo("TILT directive not found. IES file is invalid.");
-        } else {
-            fail();
+        // file with that name doesn't exist - an exception is throwm
+    }
+
+    @Test
+    public void testParseTilt_none() throws ParseException {
+        // given
+        Scanner input = new Scanner("TILT=NONE");
+        IES86Parser parser = new IES86Parser(input);
+        PhotometricData data = new PhotometricData();
+
+        // when
+        try {
+            parser.parseTilt(data);
+        } finally {
+            input.close();
         }
+
+        // then
+        assertNull(data.getTiltData());
+    }
+
+    @Test(expected=ParseException.class)
+    public void testParseTilt_fails() throws ParseException {
+        // given
+        Scanner input = new Scanner("asdfasdfASDf\r\n");
+        IES86Parser parser = new IES86Parser(input);
+        PhotometricData data = new PhotometricData();
+
+        // when
+        try {
+            parser.parseTilt(data);
+        } finally {
+            input.close();
+        }
+
+        // then
+        // invalid input - an exception is thrown
     }
 
     @Test

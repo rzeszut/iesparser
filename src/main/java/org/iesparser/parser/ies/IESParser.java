@@ -62,7 +62,7 @@ public abstract class IESParser implements Parser {
     }
 
     // TODO: zamienić protected na package
-    protected void parseCandelaValues(PhotometricData data) {
+    void parseCandelaValues(PhotometricData data) {
         float[][] candela = new float[hor][];
         for (int i = 0; i < hor; ++i) {
             candela[i] = parseFloatList(vert);
@@ -70,7 +70,7 @@ public abstract class IESParser implements Parser {
         data.setCandela(candela);
     }
 
-    protected float[] parseFloatList(int size) {
+    float[] parseFloatList(int size) {
         String line = in.next();
         Scanner lineParams = new Scanner(line);
         float[] numbers = new float[size];
@@ -81,7 +81,7 @@ public abstract class IESParser implements Parser {
         return numbers;
     }
 
-    protected void parseLine11(PhotometricData data) {
+    void parseLine11(PhotometricData data) {
         String line = in.next();
         Scanner lineParams = new Scanner(line);
         data.setBallastData(Float.valueOf(lineParams.next()));
@@ -90,7 +90,7 @@ public abstract class IESParser implements Parser {
         lineParams.close();
     }
 
-    protected void parseLine10(PhotometricData data) {
+    void parseLine10(PhotometricData data) {
         String line = in.next();
         Scanner lineParams = new Scanner(line);
         data.setNumberOfLamps(Integer.valueOf(lineParams.next()));
@@ -106,7 +106,7 @@ public abstract class IESParser implements Parser {
         lineParams.close();
     }
 
-    protected void parseTilt(PhotometricData data) throws ParseException {
+    void parseTilt(PhotometricData data) throws ParseException {
         if (in.hasNext("TILT=.*")) {
             String line = in.next();
             String tilt = line.replaceAll("TILT=(.*)", "$1").trim();
@@ -133,7 +133,7 @@ public abstract class IESParser implements Parser {
         }
     }
 
-    protected TiltData parseTiltData(Scanner input) {
+    TiltData parseTiltData(Scanner input) {
         TiltData data = new TiltData();
 
         data.setLampToLuminaire(Integer.valueOf(input.next().trim()));

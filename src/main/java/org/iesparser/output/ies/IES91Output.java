@@ -1,15 +1,13 @@
 package org.iesparser.output.ies;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.iesparser.data.PhotometricData;
-import org.iesparser.output.Output;
 
-public class IES91Output extends Output {
+public class IES91Output extends IESOutput {
 
     @Override
-    public void saveToFile(PhotometricData data, File file) throws IOException {
+    protected void writeKeywords(PrintWriter out, PhotometricData data) {
         // TODO Auto-generated method stub
 
     }
