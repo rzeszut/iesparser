@@ -22,12 +22,16 @@ public class IES95Parser extends IESParser implements Parser {
         super(in);
     }
 
+    /* (non-Javadoc)
+     * @see org.iesparser.parser.ies.IESParser#parseKeywords(org.iesparser.data.PhotometricData)
+     */
     @Override
     protected void parseKeywords(PhotometricData data) {
-        // TODO zrobic przetwarzanie labeli
+        // includes ies standard specifier, e.g. IESNA:LM-63-1995
+        // TODO add label processing
         Scanner in = getInput();
         while (!in.hasNext("TILT=.*")) {
-            in.next();
+            in.nextLine();
         }
     }
 }

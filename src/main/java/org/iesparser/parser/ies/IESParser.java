@@ -13,7 +13,7 @@ import org.iesparser.parser.ParseException;
 import org.iesparser.parser.Parser;
 
 /**
- * Bazowy parser IES, zawiera większość metod, bo spora część się powtarza.
+ * Base IES parser - a lot of funcitonality is being repeated.
  *
  * @author mateusz
  *
@@ -24,13 +24,13 @@ public abstract class IESParser implements Parser {
     private int vert, hor;
 
     /**
-     * Chroniony konstruktor, tworzenie obiektu tylko za pomocą
-     * IESParserFactory.
+     * Instantiating a parser is possible only through IESParserFactory.
      *
-     * @param in Stream z plikiem IES.
+     * @param in
+     *            IES file stream.
      */
     protected IESParser(Scanner in) {
-        this.in = in.useDelimiter("\r\n");
+        this.in = in;
     }
 
     public PhotometricData parse() throws ParseException {
@@ -61,7 +61,6 @@ public abstract class IESParser implements Parser {
         return data;
     }
 
-    // TODO: zamienić protected na package
     void parseCandelaValues(PhotometricData data) {
         float[][] candela = new float[hor][];
         for (int i = 0; i < hor; ++i) {
@@ -71,44 +70,35 @@ public abstract class IESParser implements Parser {
     }
 
     float[] parseFloatList(int size) {
-        String line = in.next();
-        Scanner lineParams = new Scanner(line);
         float[] numbers = new float[size];
         for (int i = 0; i < size; ++i) {
-            numbers[i] = Float.valueOf(lineParams.next());
+            numbers[i] = Float.valueOf(in.next());
         }
-        lineParams.close();
         return numbers;
     }
 
     void parseLine11(PhotometricData data) {
-        String line = in.next();
-        Scanner lineParams = new Scanner(line);
-        data.setBallastData(Float.valueOf(lineParams.next()));
-        data.setBallastLampPhotometricFactor(Float.valueOf(lineParams.next()));
-        data.setInputWatts(Float.valueOf(lineParams.next()));
-        lineParams.close();
+        data.setBallastData(Float.valueOf(in.next()));
+        data.setBallastLampPhotometricFactor(Float.valueOf(in.next()));
+        data.setInputWatts(Float.valueOf(in.next()));
     }
 
     void parseLine10(PhotometricData data) {
-        String line = in.next();
-        Scanner lineParams = new Scanner(line);
-        data.setNumberOfLamps(Integer.valueOf(lineParams.next()));
-        data.setLumensPerLamp(Float.valueOf(lineParams.next()));
-        data.setCandelaMultiplier(Float.valueOf(lineParams.next()));
-        vert = Integer.valueOf(lineParams.next());
-        hor = Integer.valueOf(lineParams.next());
-        data.setType(PhotometricType.fromInt(Integer.valueOf(lineParams.next())));
-        data.setUnitsType(UnitsType.fromInt(Integer.valueOf(lineParams.next())));
-        data.setWidth(Float.valueOf(lineParams.next()));
-        data.setLength(Float.valueOf(lineParams.next()));
-        data.setHeight(Float.valueOf(lineParams.next()));
-        lineParams.close();
+        data.setNumberOfLamps(Integer.valueOf(in.next()));
+        data.setLumensPerLamp(Float.valueOf(in.next()));
+        data.setCandelaMultiplier(Float.valueOf(in.next()));
+        vert = Integer.valueOf(in.next());
+        hor = Integer.valueOf(in.next());
+        data.setType(PhotometricType.fromInt(Integer.valueOf(in.next())));
+        data.setUnitsType(UnitsType.fromInt(Integer.valueOf(in.next())));
+        data.setWidth(Float.valueOf(in.next()));
+        data.setLength(Float.valueOf(in.next()));
+        data.setHeight(Float.valueOf(in.next()));
     }
 
     void parseTilt(PhotometricData data) throws ParseException {
         if (in.hasNext("TILT=.*")) {
-            String line = in.next();
+            String line = in.nextLine();
             String tilt = line.replaceAll("TILT=(.*)", "$1").trim();
 
             if (tilt.equals("NONE")) {
@@ -119,7 +109,8 @@ public abstract class IESParser implements Parser {
                 data.setTiltData(parseTiltFile(tilt));
             }
         } else {
-            throw new ParseException("TILT directive not found. IES file is invalid.");
+            throw new ParseException(
+                    "TILT directive not found. IES file is invalid.");
         }
     }
 
@@ -145,7 +136,8 @@ public abstract class IESParser implements Parser {
         return data;
     }
 
-    protected abstract void parseKeywords(PhotometricData data) throws ParseException;
+    protected abstract void parseKeywords(PhotometricData data)
+            throws ParseException;
 
     protected Scanner getInput() {
         return in;

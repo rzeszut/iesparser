@@ -23,12 +23,15 @@ public class IES86Parser extends IESParser implements Parser {
         super(in);
     }
 
+    /* (non-Javadoc)
+     * @see org.iesparser.parser.ies.IESParser#parseKeywords(org.iesparser.data.PhotometricData)
+     */
     @Override
     protected void parseKeywords(PhotometricData data) {
         // TODO zrobic przetwarzanie labeli
         Scanner in = getInput();
         while (!in.hasNext("TILT=.*")) {
-            in.next();
+            in.nextLine();
         }
     }
 }

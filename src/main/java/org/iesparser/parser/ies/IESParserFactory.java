@@ -18,12 +18,12 @@ public class IESParserFactory implements ParserFactory {
      * Implementacja pewnie będzie wyglądała tak, że ta metoda będzie podglądać
      * pierwszą linijkę pliku i na jej podstawie decydować, jaki to format.
      *
-     * @param filename nazwa pliku IES
+     * @param filename
+     *            nazwa pliku IES
      * @return parser
      */
     public IESParser newParser(String filename) throws IOException {
         Scanner input = new Scanner(new File(filename));
-        input.useDelimiter("\r\n");
 
         if (input.hasNext("IESNA91")) {
             return new IES91Parser(input);
@@ -32,5 +32,7 @@ public class IESParserFactory implements ParserFactory {
         } else {
             return new IES86Parser(input);
         }
+        // TODO add generic ies parser, that applies to all format - may not
+        // parse 100% correctly
     }
 }

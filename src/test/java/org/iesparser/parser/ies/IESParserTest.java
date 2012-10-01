@@ -2,7 +2,7 @@ package org.iesparser.parser.ies;
 
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
 
 import java.util.Scanner;
 
@@ -145,6 +145,22 @@ public class IESParserTest {
 
         // then
         for (int i = 0; i < 6; ++i) {
+            assertThat(ret[i]).isEqualTo(0.5f * i);
+        }
+    }
+
+    @Test
+    public void testParseFloatList_multiLine() {
+        // given
+        Scanner input = new Scanner("0 .5 1 1.5 2 2.5\r\n3.0 3.5\r\n");
+        IES86Parser parser = new IES86Parser(input); // na potrzeby tego testu równie dobrze może być 91 czy 95
+
+        // when
+        float[] ret = parser.parseFloatList(8);
+        input.close();
+
+        // then
+        for (int i = 0; i < 8; ++i) {
             assertThat(ret[i]).isEqualTo(0.5f * i);
         }
     }
