@@ -37,7 +37,7 @@ public abstract class IESParser implements Parser {
         PhotometricData data = new PhotometricData();
 
         try {
-            parseKeywords(data);
+            parseIdentifierAndKeywords(data);
 
             parseTilt(data);
 
@@ -61,7 +61,7 @@ public abstract class IESParser implements Parser {
         return data;
     }
 
-    void parseCandelaValues(PhotometricData data) {
+    protected void parseCandelaValues(PhotometricData data) {
         float[][] candela = new float[hor][];
         for (int i = 0; i < hor; ++i) {
             candela[i] = parseFloatList(vert);
@@ -69,7 +69,7 @@ public abstract class IESParser implements Parser {
         data.setCandela(candela);
     }
 
-    float[] parseFloatList(int size) {
+    protected float[] parseFloatList(int size) {
         float[] numbers = new float[size];
         for (int i = 0; i < size; ++i) {
             numbers[i] = Float.valueOf(in.next());
@@ -77,13 +77,13 @@ public abstract class IESParser implements Parser {
         return numbers;
     }
 
-    void parseLine11(PhotometricData data) {
+    protected void parseLine11(PhotometricData data) {
         data.setBallastData(Float.valueOf(in.next()));
         data.setBallastLampPhotometricFactor(Float.valueOf(in.next()));
         data.setInputWatts(Float.valueOf(in.next()));
     }
 
-    void parseLine10(PhotometricData data) {
+    protected void parseLine10(PhotometricData data) {
         data.setNumberOfLamps(Integer.valueOf(in.next()));
         data.setLumensPerLamp(Float.valueOf(in.next()));
         data.setCandelaMultiplier(Float.valueOf(in.next()));
@@ -96,7 +96,7 @@ public abstract class IESParser implements Parser {
         data.setHeight(Float.valueOf(in.next()));
     }
 
-    void parseTilt(PhotometricData data) throws ParseException {
+    protected void parseTilt(PhotometricData data) throws ParseException {
         if (in.hasNext("TILT=.*")) {
             String line = in.nextLine();
             String tilt = line.replaceAll("TILT=(.*)", "$1").trim();
@@ -114,7 +114,7 @@ public abstract class IESParser implements Parser {
         }
     }
 
-    private TiltData parseTiltFile(String tilt) throws ParseException {
+    protected TiltData parseTiltFile(String tilt) throws ParseException {
         // behold, new Java 7 feature: auto-closing resources
         // present in Lisp since ancient times
         try (Scanner input = new Scanner(new File(tilt))) {
@@ -124,7 +124,7 @@ public abstract class IESParser implements Parser {
         }
     }
 
-    TiltData parseTiltData(Scanner input) {
+    protected TiltData parseTiltData(Scanner input) {
         TiltData data = new TiltData();
 
         data.setLampToLuminaire(Integer.valueOf(input.next().trim()));
@@ -136,7 +136,17 @@ public abstract class IESParser implements Parser {
         return data;
     }
 
-    protected abstract void parseKeywords(PhotometricData data)
+    /**
+     * Method parses the idetifier (the first line of the IES fiel, ex.
+     * IESNA:LM-63-1995. Identifier is not always present) and keywords/labels
+     * (IES metadata).
+     *
+     * @param data
+     *            an instance of {@link PhotometricData}
+     * @throws ParseException
+     *             some error happened during parsing of the keywords
+     */
+    protected abstract void parseIdentifierAndKeywords(PhotometricData data)
             throws ParseException;
 
     protected Scanner getInput() {

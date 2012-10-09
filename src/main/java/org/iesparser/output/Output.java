@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import org.iesparser.data.PhotometricData;
 
-
 /**
  *
  * @author mateusz
@@ -13,26 +12,34 @@ import org.iesparser.data.PhotometricData;
  */
 public abstract class Output {
     /**
-     * Metoda dostaje dane i zapisuje je do pliku, w okreslonym formacie.
+     * Saves the passed {@link PhotometricData} instance to a file.
      *
      * @param data
-     *            dane fotometryczne
-     * @param file
-     *            plik
+     *            ans instance of {@link PhotometricData}
+     * @param filename
+     *            filename
      * @throws IOException
+     *             filesystem exception
+     * @throws OutputException
+     *             invalid {@link PhotometricData} instance passed
      */
-    public abstract void saveToFile(PhotometricData data, File file) throws IOException;
+    public abstract void saveToFile(PhotometricData data, File file)
+            throws IOException, OutputException;
 
     /**
-     * Analogiczna metoda do tej powyzej.
+     * The same as the one up.
      *
      * @param data
-     *            dane
+     *            ans instance of {@link PhotometricData}
      * @param filename
-     *            nazwa pliku
+     *            filename
      * @throws IOException
+     *             filesystem exception
+     * @throws OutputException
+     *             invalid {@link PhotometricData} instance passed
      */
-    public void saveToFile(PhotometricData data, String filename) throws IOException {
+    public void saveToFile(PhotometricData data, String filename)
+            throws IOException, OutputException {
         saveToFile(data, new File(filename));
     }
 }

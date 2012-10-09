@@ -1,8 +1,7 @@
 package org.iesparser.data;
+
 import java.util.Map;
-
-import com.google.common.collect.Maps;
-
+import java.util.HashMap;
 
 public enum PhotometricType {
     A(3), B(2), C(1);
@@ -11,7 +10,7 @@ public enum PhotometricType {
 
     private static Map<Integer, PhotometricType> getMap() {
         if (enumMap == null) {
-            enumMap = Maps.newHashMap();
+            enumMap = new HashMap<>();
         }
         return enumMap;
     }
