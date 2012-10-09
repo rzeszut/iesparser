@@ -21,7 +21,7 @@ public class GenericIESParser extends IESParser {
      * @see org.iesparser.parser.ies.IESParser#parseKeywords(org.iesparser.data.PhotometricData)
      */
     @Override
-    protected void parseKeywords(PhotometricData data) throws ParseException {
+    protected void parseIdentifierAndKeywords(PhotometricData data) throws ParseException {
         // I-dont-know-what-to-do-with-labels
         Scanner in = getInput();
         while (!in.hasNext("TILT=.*")) {

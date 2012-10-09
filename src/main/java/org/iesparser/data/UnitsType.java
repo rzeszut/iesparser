@@ -1,8 +1,7 @@
 package org.iesparser.data;
 
+import java.util.HashMap;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
 
 public enum UnitsType {
     FEET(1), METERS(2);
@@ -11,7 +10,7 @@ public enum UnitsType {
 
     private static Map<Integer, UnitsType> getMap() {
         if (enumMap == null) {
-            enumMap = Maps.newHashMap();
+            enumMap = new HashMap<>();
         }
         return enumMap;
     }
