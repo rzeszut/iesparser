@@ -26,7 +26,7 @@ public class IES95Parser extends IESParser implements Parser {
      * @see org.iesparser.parser.ies.IESParser#parseKeywords(org.iesparser.data.PhotometricData)
      */
     @Override
-    protected void parseIdentifierAndKeywords(PhotometricData data) {
+    protected void parseKeywords(PhotometricData data) {
         // includes ies standard specifier, e.g. IESNA:LM-63-1995
         // TODO add label processing
         Scanner in = getInput();

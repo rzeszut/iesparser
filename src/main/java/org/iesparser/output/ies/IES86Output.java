@@ -10,11 +10,8 @@ import org.iesparser.data.PhotometricData;
  */
 public class IES86Output extends IESOutput {
 
-    /* (non-Javadoc)
-     * @see org.iesparser.output.ies.IESOutput#writeIdentifierAndKeywords(java.io.PrintWriter, org.iesparser.data.PhotometricData)
-     */
     @Override
-    protected void writeIdentifierAndKeywords(PrintWriter out, PhotometricData data) {
+    protected void writeKeywords(PrintWriter out, PhotometricData data) {
         // TODO Auto-generated method stub
 
     }
